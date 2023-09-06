@@ -29,7 +29,7 @@ const LoginSignup = () => {
     const password = data.get('password');
     const email = data.get('email');
     //Send the info to the database
-    const serverResponse = await fetch('', {
+    const serverResponse = await fetch('/verify/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, username, password })
