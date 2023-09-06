@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const path = require('path');
 const dotenv = require('dotenv');
+
+const saltFactor = 10;
 
 const MONGO_URI = dotenv.config().parsed.DB_URI;
 console.log('MONGO_URI: ', MONGO_URI);
@@ -14,12 +17,12 @@ mongoose
     dbName: 'get-swell',
   })
   .then(() => console.log('Connected to Mongo DB.'))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  userName: { type: String, required: true },
+  username: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, required: true },
   preferences: {
@@ -30,8 +33,21 @@ const userSchema = new Schema({
       mindfulness: true,
     },
   },
-  profilePic: Buffer,
-  zipCode: { type: String },
+});
+
+userSchema.pre('save', async (next) => {
+  try {
+    if (!this.isModified('password')) {
+      return next();
+    }
+    const salt = await bcrypt.genSalt(saltFactor);
+    const hashedPassword = await bcrypt.hash(this.password, salt);
+    this.password = hashedPassword;
+
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 });
 
 const User = mongoose.model('User', userSchema);
