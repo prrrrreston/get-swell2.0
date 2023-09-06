@@ -15,6 +15,8 @@ cookieController.setSSIDCookie = (req, res, next) => {
 
 cookieController.setSession = async (req, res, next) => {
   try {
+    const created = await Session.findOne({ cookieId: res.locals.id });
+    if (created) return next();
     const response = await Session.create({ cookieId: res.locals.id });
     console.log('created session');
     return next();

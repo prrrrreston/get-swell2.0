@@ -14,7 +14,7 @@ oAuthRouter.post(
   },
 );
 
-oAuthController.post(
+oAuthRouter.post(
   '/login',
   oAuthController.logIn,
   cookieController.setSSIDCookie,

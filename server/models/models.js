@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const path = require('path');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
 const saltFactor = 10;
 
-const MONGO_URI = dotenv.config().parsed.DB_URI;
-console.log('MONGO_URI: ', MONGO_URI);
+const MONGO_URI = 'mongodb+srv://justinchu24:FcIEdxYQZlrj6qt5@cluster0.u1qlvgx.mongodb.net/?retryWrites=true&w=majority';
+console.log('DB_URI from env: ', process.env.DB_URI);
 
 mongoose
   .connect(MONGO_URI, {
@@ -22,8 +22,7 @@ mongoose
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  username: { type: String, required: true },
-
+  username: { type: String, required: true, unique: true},
   password: { type: String, required: true },
   email: { type: String, required: true},
   preferences: {
@@ -36,12 +35,9 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre('save', async (next) => {
+userSchema.pre('save', async function (next) {
   try {
-    if (!this.isModified('password')) {
-      return next();
-    }
-    const salt = await bcrypt.genSalt(saltFactor);
+    const salt = 15;
     const hashedPassword = await bcrypt.hash(this.password, salt);
     this.password = hashedPassword;
 
@@ -59,8 +55,8 @@ const activitySchema = new Schema(
     preference: { type: String, required: true },
     image: String,
     description: { type: String, required: true },
-    hypes: { type: Number, default: 0 }, // Likes
-    vibes: Array, // Comments
+    likes: { type: Number, default: 0 },
+    comments: Array,
   },
   { timestamps: true },
 );

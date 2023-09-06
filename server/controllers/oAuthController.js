@@ -20,10 +20,9 @@ oAuthController.logIn = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
-    const response = bcrypt.compare(password, user.password);
+    const response = await bcrypt.compare(password, user.password);
     if (!response) res.status(400).json('Invalid Credentials');
     res.locals.id = user._id.toString();
-    console.log('Verified Credentials');
     return next();
   } catch (err) {
     console.log(err);
