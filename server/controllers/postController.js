@@ -32,7 +32,7 @@ postController.getFilteredPosts = async (_, res, next) => {
     return next();
   } catch (err) {
     return next({
-      log: `postController.getfilteredPosts: ERROR ${error}`,
+      log: `postController.getfilteredPosts: ERROR ${err}`,
       status: 400,
       message: { err: 'An error occurred' },
     });
