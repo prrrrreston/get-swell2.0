@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack NODE_ENV=production",
+    "build": "NODE_ENV=production webpack",
     "start": "nodemon server/server.js",
     "dev": "concurrently \"NODE_ENV=development webpack-dev-server --open\" \"nodemon server/server.js\""
   },
