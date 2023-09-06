@@ -6,9 +6,10 @@ const app = express();
 const PORT = 3000;
 
 // REQUIRED ROUTERS
-const apiRouter = require('./routes/api.js');
-const userRouter = require('./routes/users.js');
-const postRouter = require('./routes/posts.js');
+const apiRouter = require('./routes/oAuthRouter');
+const userRouter = require('./routes/users');
+const postRouter = require('./routes/posts');
+const oAuthRouter = require('./routes/oAuthRouter');
 
 // Use cors
 app.use(cors());
@@ -25,15 +26,25 @@ app.use(express.static(path.join(__dirname, './../dist')));
 //   res.sendFile(path.join(__dirname, './../dist/index.html'));
 // });
 
+app.use((req, res, next) => {
+  console.log('Request received:', req.method, req.path, req.body);
+  next();
+});
+
+app.use('/verify', oAuthRouter);
 app.use('/api/users', userRouter);
 app.use('/api/posts', postRouter);
 app.use('/api', apiRouter);
 
 // serve 404 status
 // TODO: Add 404 html page
-app.use((req, res) =>
-  res.status(404).send('Ope! Looks like you took a wrong turn!'),
-);
+
+// Catch All for uncertain routes, redirect to build for react router
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
+});
+
+app.use((req, res) => res.status(404).send('Oops! Looks like you took a wrong turn!'));
 
 // global error handler
 app.use((err, req, res, next) => {
@@ -43,7 +54,7 @@ app.use((err, req, res, next) => {
     message: { err: 'An error occurred' },
   };
 
-  const errorObj = Object.assign({}, defaultErr, err);
+  const errorObj = { ...defaultErr, ...err };
   console.log(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });

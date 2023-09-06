@@ -18,7 +18,7 @@ module.exports = {
     proxy: {
       // localhost:8080/ will point to localhost:3000
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3000/',
         secure: false,
       },
     },
