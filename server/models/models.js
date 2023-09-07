@@ -51,7 +51,7 @@ const User = mongoose.model('User', userSchema);
 
 const commentSchema = new Schema(
   {
-    username: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    username: { type: String, required: true },
     comment: { type: String, required: true },
   },
   { timestamps: true },
@@ -66,11 +66,7 @@ const activitySchema = new Schema(
     image: String,
     description: { type: String, required: true },
     likes: { type: Number, default: 0 },
-    comments: [
-      {
-        commentSchema,
-      },
-    ],
+    comments: [commentSchema],
   },
   { timestamps: true },
 );

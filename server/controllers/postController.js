@@ -124,15 +124,16 @@ postController.likePost = async (req, res, next) => {
 
 postController.comment = async (req, res, next) => {
   try {
+    console.log('adding comment');
     const { postID, username, comment } = req.body;
-    const post = Activity.findOne({ _id: postID });
+    const post = await Activity.findOne({ _id: postID });
     if (!post) {
       return res.status(404).json({ error: 'Post not found' });
     }
-    const newComment = post.comments.create({ username, comment });
-    post.comments.push(newComment);
+    post.comments.push({ username, comment });
+    console.log(post);
+    console.log('added');
     await post.save();
-    res.status(200).json({ message: 'Comment was added' });
     return next();
   } catch (err) {
     console.error(err);
