@@ -7,6 +7,7 @@ oAuthController.signUp = async (req, res, next) => {
   try {
     const { username, password, email } = req.body;
     const response = await User.create({ username, password, email });
+    res.locals.username = username;
     res.locals.id = response._id.toString();
     console.log('Added User', response);
     return next();
@@ -22,6 +23,7 @@ oAuthController.logIn = async (req, res, next) => {
     const user = await User.findOne({ username });
     const response = await bcrypt.compare(password, user.password);
     if (!response) res.status(400).json('Invalid Credentials');
+    res.locals.username = username;
     res.locals.id = user._id.toString();
     return next();
   } catch (err) {

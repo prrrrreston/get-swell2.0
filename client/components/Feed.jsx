@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import Post from './Post.jsx';
 import '../stylesheets/Feed.css';
 
-const url = 'http://localhost:3000/api/posts';
+// const url = 'http://localhost:3000/api/posts';
 
-const Feed = props => {
+function Feed(props) {
   const [feedData, setFeedData] = useState([]);
   const { feedChange, setFeedChange } = props;
   useEffect(() => {
-    fetch(url)
-      .then(data => data.json())
-      .then(postObjArr => {
+    fetch('/api/posts')
+      .then((data) => data.json())
+      .then((postObjArr) => {
         // console.log(postObjArr);
-        const filteredPostObjArr = postObjArr.filter(el => props.prefs[el.preference]).reverse();
+        const filteredPostObjArr = postObjArr.filter((el) => props.prefs[el.preference]).reverse();
         setFeedData(filteredPostObjArr);
         setFeedChange(false);
       });
@@ -27,10 +27,10 @@ const Feed = props => {
   }
 
   return (
-    <div className='feed-container'>
-      <div className='feed'>{feedArray}</div>
+    <div className="feed-container">
+      <div className="feed">{feedArray}</div>
     </div>
   );
-};
+}
 
 export default Feed;
