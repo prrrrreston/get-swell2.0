@@ -1,6 +1,15 @@
 const { Activity } = require('../models/models');
 const { Comment } = require('../models/models');
 
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: 'datlwdq78',
+  api_key: '983267157262985',
+  api_secret: 'VUl34AoYoCZmFNgE50vcMvoW074',
+});
+
+
 const postController = {};
 
 // TEST ROUTE FOR ALL POSTS
@@ -43,14 +52,18 @@ postController.getFilteredPosts = async (_, res, next) => {
 // CREATE NEW POST
 postController.createPost = async (req, res, next) => {
   console.log('entered postController.createPost');
+  console.log('body', req.body);
+  console.log('file', req.file);
   const {
-    userID, preference, image, description, hypes, vibes,
+    userID, preference, description, hypes, vibes,
   } = req.body;
+  const imageURL = (req.file && req.file.path) ? req.file.path : 'https://c8.alamy.com/comp/2G3W71T/dolphins-cartoon-character-with-panda-whale-font-banner-isolated-illustration-2G3W71T.jpg';
+
   try {
     const postData = await Activity.create({
       userID,
       preference,
-      image,
+      image: imageURL,
       description,
       hypes,
       vibes,
@@ -140,5 +153,7 @@ postController.comment = async (req, res, next) => {
     res.status(400).json('Cannot add comment');
   }
 };
+
+
 
 module.exports = postController;
