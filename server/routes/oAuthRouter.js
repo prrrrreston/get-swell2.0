@@ -29,7 +29,7 @@ oAuthRouter.post(
 oAuthRouter.use(
   '/',
   cookieController.verifySession,
-  (req, res) => res.redirect('/app'),
+  (req, res) => res.json({ isAuthenticated: true }),
 );
 
 module.exports = oAuthRouter;

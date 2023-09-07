@@ -38,10 +38,10 @@ cookieController.setSession = async (req, res, next) => {
 cookieController.verifySession = async (req, res, next) => {
   try {
     console.log('verifying SSID');
-    if (!req.cookies.SSID) return res.redirect('/');
+    if (!req.cookies.SSID) res.json({ isAuthenticated: true });
     const cookieId = req.cookies.SSID;
     const response = await Session.findOne({ cookieId });
-    if (!response) return res.redirect('/');
+    if (!response) return res.json({ isAuthenticated: true });
     return next();
   } catch (err) {
     console.log(err);
