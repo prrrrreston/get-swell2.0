@@ -11,7 +11,7 @@ postController.getAllPosts = async (req, res, next) => {
     return next();
   } catch (error) {
     return next({
-      log: `postController.getAllPosts: ERROR ${error}`,
+      log: `postController.getAllPosts: ERROR ${err}`,
       status: 400,
       message: { err: 'An error occurred' },
     });
@@ -57,7 +57,7 @@ postController.createPost = async (req, res, next) => {
     return next();
   } catch (err) {
     return next({
-      log: `postController.createPost: ERROR ${error}`,
+      log: `postController.createPost: ERROR ${err}`,
       status: 400,
       message: { err: 'An error occurred' },
     });
@@ -80,7 +80,7 @@ postController.updatePost = async (req, res, next) => {
     return next();
   } catch (err) {
     return next({
-      log: `postController.updatePost: ERROR ${error}`,
+      log: `postController.updatePost: ERROR ${err}`,
       status: 400,
       message: { err: 'An error occurred' },
     });
@@ -97,11 +97,27 @@ postController.deletePost = async (req, res, next) => {
     return next();
   } catch (err) {
     return next({
-      log: `postController.updatePost: ERROR ${error}`,
+      log: `postController.updatePost: ERROR ${err}`,
       status: 400,
       message: { err: 'An error occurred' },
     });
   }
 };
+
+postController.likePost = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const liked = await Activity.findOneAndUpdate(
+      { _id: id },
+      { $inc: { likes: 1 } },
+      { new: true },
+    );
+    res.locals.updatedPost = liked;
+    return next();
+    } catch (error) {
+       return next({err: error});
+    }
+
+}
 
 module.exports = postController;

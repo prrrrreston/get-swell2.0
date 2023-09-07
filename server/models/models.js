@@ -56,7 +56,12 @@ const activitySchema = new Schema(
     image: String,
     description: { type: String, required: true },
     likes: { type: Number, default: 0 },
-    comments: Array,
+    comments: [
+      {
+        username: String,
+        comment: String,
+      },
+    ],
   },
   { timestamps: true },
 );
