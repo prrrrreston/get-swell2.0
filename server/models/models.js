@@ -49,6 +49,16 @@ userSchema.pre('save', async function (next) {
 
 const User = mongoose.model('User', userSchema);
 
+const commentSchema = new Schema(
+  {
+    username: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    comment: { type: String, required: true },
+  },
+  { timestamps: true },
+);
+
+const Comment = mongoose.model('Comment', commentSchema);
+
 const activitySchema = new Schema(
   {
     userID: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -58,8 +68,7 @@ const activitySchema = new Schema(
     likes: { type: Number, default: 0 },
     comments: [
       {
-        username: String,
-        comment: String,
+        commentSchema,
       },
     ],
   },
@@ -67,16 +76,6 @@ const activitySchema = new Schema(
 );
 
 const Activity = mongoose.model('Activity', activitySchema);
-
-const commentSchema = new Schema(
-  {
-    userName: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    comment: { type: String, required: true },
-  },
-  { timestamps: true },
-);
-
-const Comment = mongoose.model('Comment', commentSchema);
 
 module.exports = {
   User,

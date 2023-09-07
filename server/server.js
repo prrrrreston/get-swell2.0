@@ -34,7 +34,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
 // app.use('*', oAuthRouter);
 app.use('/verify', oAuthRouter);
 app.use('/api/users', userRouter);

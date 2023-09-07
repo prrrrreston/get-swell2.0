@@ -19,10 +19,10 @@ router.post('/', postController.createPost, (req, res) => {
   res.status(200).json(res.locals.newPost);
 });
 
-// UPDATE POST
-// router.patch('/:id', postController.updatePost, (_, res) => {
-//   res.status(200).json(res.locals.updatedPost);
-// });
+// ADD COMMENT
+router.patch('/comment', postController.comment, (_, res) => {
+  res.status(200).json('Added comment');
+});
 
 // DELETE POST
 router.delete('/:id', postController.deletePost, (_, res) => {

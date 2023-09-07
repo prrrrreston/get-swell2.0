@@ -1,4 +1,5 @@
-const { Activity } = require('../models/models.js');
+const { Activity } = require('../models/models');
+const { Comment } = require('../models/models');
 
 const postController = {};
 
@@ -42,7 +43,9 @@ postController.getFilteredPosts = async (_, res, next) => {
 // CREATE NEW POST
 postController.createPost = async (req, res, next) => {
   console.log('entered postController.createPost');
-  const { userID, preference, image, description, hypes, vibes } = req.body;
+  const {
+    userID, preference, image, description, hypes, vibes,
+  } = req.body;
   try {
     const postData = await Activity.create({
       userID,
@@ -67,7 +70,7 @@ postController.createPost = async (req, res, next) => {
 // UPDATE POST
 postController.updatePost = async (req, res, next) => {
   const { id } = req.params;
-  //TODO: We might need a separate update controller for comments
+  // TODO: We might need a separate update controller for comments
   const { preference, image, description } = req.body;
   const filter = { _id: id };
   const update = { preference, image, description };
@@ -114,10 +117,27 @@ postController.likePost = async (req, res, next) => {
     );
     res.locals.updatedPost = liked;
     return next();
-    } catch (error) {
-       return next({err: error});
-    }
+  } catch (error) {
+    return next({ err: error });
+  }
+};
 
-}
+postController.comment = async (req, res, next) => {
+  try {
+    const { postID, username, comment } = req.body;
+    const post = Activity.findOne({ _id: postID });
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    const newComment = post.comments.create({ username, comment });
+    post.comments.push(newComment);
+    await post.save();
+    res.status(200).json({ message: 'Comment was added' });
+    return next();
+  } catch (err) {
+    console.error(err);
+    res.status(400).json('Cannot add comment');
+  }
+};
 
 module.exports = postController;
