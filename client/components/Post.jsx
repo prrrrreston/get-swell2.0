@@ -5,16 +5,17 @@ import octopus from '../assets/octopus-tentacles.png';
 import testImg from '../assets/testImg.js';
 import Comment from './Comments';
 
+
 function Post(props) {
   const { setFeedChange, postInfo } = props;
-  const [comment, setComment] = useState('')
+  const [comment, setComment] = useState('');
   console.log('creating a post');
   console.log('postInfo:', postInfo);
 
   const handleCommentChange = (e) => {
-    setComment(e.target.value)
-  }
-  
+    setComment(e.target.value);
+  };
+
   const deletePost = (event) => {
     const postID = event.target.parentNode.id;
     fetch(`/api/posts/${postID}`, {
@@ -32,7 +33,7 @@ function Post(props) {
   const likePost = (event) => {
     // console.log('event.target', event.target, 'event.target.parentNode', event.target.parentNode.parentNode)
     const postID = event.target.parentNode.parentNode.id;
-    console.log('post ID in likePost', postID)
+    console.log('post ID in likePost', postID);
     fetch(`/api/posts/likepost/${postID}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -47,11 +48,11 @@ function Post(props) {
 
   const submitComment = (event) => {
     const postID = event.target.parentNode.parentNode.id;
-    const username = Cookies.get('username')
-    fetch(`/api/posts/comment/`, {
+    const username = Cookies.get('username');
+    fetch('/api/posts/comment', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({postID, username, comment})
+      body: JSON.stringify({ postID, username, comment }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -62,11 +63,10 @@ function Post(props) {
   };
 
   const commentList = [];
-  
-  for (let i = 0; i < postInfo.comments.length; i++) {
-    commentList.push(<Comment key={i} username={postInfo.comments[i].username} comment={postInfo.comments[i].comment} />)
-  }
 
+  for (let i = 0; i < postInfo.comments.length; i++) {
+    commentList.push(<Comment key={i} username={postInfo.comments[i].username} comment={postInfo.comments[i].comment} />);
+  }
 
   return (
     <div className="post" id={props.postInfo._id}>
@@ -91,9 +91,9 @@ function Post(props) {
       </p>
       <button onClick={deletePost}>Delete Post</button>
       <div className="comment-section">
-        <input 
-          type="text" 
-          placeholder="Add a comment..." 
+        <input
+          type="text"
+          placeholder="Add a comment..."
           value={comment}
           onChange={handleCommentChange}
         />
