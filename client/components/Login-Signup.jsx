@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
 function LoginSignup() {
   const navigate = useNavigate();
 
-  const handleSignupSubmit = async (event) => {
+  const handleSignupSubmit = async event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const username = data.get('username');
@@ -42,7 +42,7 @@ function LoginSignup() {
     }
   };
 
-  const handleLoginSubmit = async (event) => {
+  const handleLoginSubmit = async event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // Save the username and password values on-click to these variables
