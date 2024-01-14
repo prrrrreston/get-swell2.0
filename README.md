@@ -25,7 +25,7 @@ Get Swell is a fitness social media app that draws inspiration from Instagram, f
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [For Future Iterations](#for-future-iterations)
-- [The Get Swell Team](#the-get-swell-team)
+- [The Get Swell 2.0 Team](#the-get-swell-20-team)
 
 ## Interface & Features
 
@@ -94,7 +94,7 @@ To use Get Swell effectively, follow these steps:
 - OAuthentication.
 - Testing.
 
-## The Get Swell Team
+## The Get Swell 2.0 Team
 
 Developed by:
 
