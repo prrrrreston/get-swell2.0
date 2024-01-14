@@ -21,7 +21,7 @@ Get Swell is a fitness social media app that draws inspiration from Instagram, f
 
 ## Table of Contents
 - [Interface & Features](#interface--features)
-- [Whats new?](#whats-new?)
+- [What's New?](#whats-new)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [For Future Iterations](#for-future-iterations)
@@ -41,7 +41,7 @@ Get Swell is a fitness social media app that draws inspiration from Instagram, f
 **Filter posts**
 - Users can filter posts based on three “vibes” of Motivation, Milestones, and Mindfulness.
 
-## Whats new?
+## What's New?
 
 - Users are able to login, and create accounts.
 - Each post can be filtered based off "vibes."
