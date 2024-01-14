@@ -44,4 +44,4 @@ React, Node.js/Express, MongoDB/Mongoose, Cloudinary for image hosting
 1. Frontend - Moiz, Ivy, Bryan
 2. Backend - Meredith, Gayle, Bryan
 3. Scrum Master: Meredith
-4. Product Owner: Gayle
+4. Product Owner: Gayl
